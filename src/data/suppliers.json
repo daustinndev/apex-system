@@ -1,0 +1,74 @@
+[
+    {
+        "__id__": "001",
+        "name": "EILR. Corporation",
+        "ruc":"35773958025",
+        "email":"eilr.help@eilr.com",
+        "phone":"0013453",
+        "whatsapp":"945676546",
+        "telegram":"945676546",
+        "cards": [
+            {
+                "numberCard": "859898230529035",
+                "name":"BCP"
+            },
+            {
+                "numberCard": "385980304940295",
+                "name":"Interbank"
+            },
+            {
+                "numberCard": "35u8350590390336",
+                "name":"Multired"
+            }
+        ],
+        "site": "http://www.supplier.com"
+    },
+    {
+        "__id__": "002",
+        "name": "Musicaly Ayacucho",
+        "ruc":"4646473536",
+        "email":"musicaly_ayacucho@gmail.com",
+        "phone":"0013445",
+        "whatsapp":"934523456",
+        "telegram":"934523456",
+        "cards": [
+            {
+                "numberCard": "477447747436362",
+                "name":"BCP"
+            },
+            {
+                "numberCard": "736346245246488",
+                "name":"Mastercard"
+            }
+        ],
+        "site": "http://www.supplier.com"
+    },
+    {
+        "__id__": "003",
+        "name": "Infotron",
+        "ruc":"46252564744",
+        "email":"infotron.help@infotron.com",
+        "phone":"0013425",
+        "whatsapp":"934523456",
+        "telegram":"934523456",
+        "cards": [
+            {
+                "numberCard": "477447747436362",
+                "name":"BCP"
+            },
+            {
+                "numberCard": "736346245246488",
+                "name":"Mastercard"
+            },
+            {
+                "numberCard": "736346245246488",
+                "name":"Multired"
+            },
+            {
+                "numberCard": "945643215",
+                "name":"Yape"
+            }
+        ],
+        "site": "http://www.supplier.com"
+    }
+]

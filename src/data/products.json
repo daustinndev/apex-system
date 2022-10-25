@@ -1,0 +1,47 @@
+[
+    {
+        "__id__": "3663636352525",
+        "codeQr": "92729729794808295",
+        "adminId": "000001",
+        "brand": "Huawei",
+        "categoryId": "1",
+        "model": "P40 pro",
+        "title":"Huawei p 40 pro 6Gb Ram / 128Gb Rom",
+        "supplierId": "001",
+        "description": "Telefono Huawei \r\n Camara de 48 mpx \r\n Pantalla de 90Hz \r\n Memoria 6/128gb",
+        "costPrice": "4568",
+        "salePrice": "4668",
+        "stock": 5,
+        "gain": "500"
+    },
+    {
+        "__id__": "522424t2246224",
+        "codeQr": "92729729794808295",
+        "adminId": "000001",
+        "brand": "Korg",
+        "categoryId": "3",
+        "model": "PA 600",
+        "title":"Teclado Korg PA600, Edicion 2022",
+        "supplierId": "002",
+        "description": "Teclado Korg PA600\r\n \r\n - Edicion 2022 \r\n - 90 Teclas Mecanicas \r\n -  Color Negro \r\n - Nuevo",
+        "costPrice": "3168",
+        "salePrice": "3468",
+        "stock": 2,
+        "gain": "900"
+    },
+    {
+        "__id__": "246245245246",
+        "codeQr": "92729729794808215",
+        "adminId": "000001",
+        "brand": "Asus",
+        "categoryId": "2",
+        "model": "XGaming X5",
+        "title":"Lptop Gaming 32/1000Gb 2021",
+        "supplierId": "003",
+        "description": "Laptop Gaming Asus \r\n  \r\n  - 32Gb de Ram \r\n - 1T de Alamacenamiento Solido \r\n - Pantalla 1970 x 1080 \r\n - Pantalla Tactil",
+        "costPrice": "6168",
+        "salePrice": "6768",
+        "stock": 3,
+        "gain": "1800"
+    }
+]
