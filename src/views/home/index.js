@@ -12,7 +12,9 @@ export const Home = () => {
     dispatch(onChangeMethod('home'));
   }, [])
   const {user} = useAuth()
+  
   return (
+    
     <>
       <ContainerDashboard>
         <h1>Home</h1>

@@ -138,7 +138,11 @@ export const ButtonPrimary = ({
           :
           <>
             {IconImg && <IconImgDiv><a href={iconImgHref}><img src={IconImg} alt={IconImg} /></a></IconImgDiv>}
-            <Button2 iconImg={IconImg} onDoubleClick={onDoubleClick} type={type} disabled={disabled ? true : loading ? true : false} className={ClasName} onClick={onClick}>
+            <Button2 
+            iconImg={IconImg} 
+            onDoubleClick={onDoubleClick} 
+            title={title}
+            type={type} disabled={disabled ? true : loading ? true : false} className={ClasName} onClick={onClick}>
               {
                 loading ?
                   <IframeLoder>
@@ -223,7 +227,16 @@ const ButonContainer = styled.div`
         background: var(--yellow-600);
         border: 1px solid var(--yellow-500) ;
       }
-    }
+  }
+  .error{
+      background: var(--red-400) ;
+      border: 1px solid var(--red-500) ;
+      color: ${props => props.ColorText ? props.ColorText : 'var(--write-100)'} ;
+      &:hover{
+        background: var(--red-500) ;
+        border: 1px solid var(--red-500) ;
+      }
+  }
   .lg{
     padding: .5rem 1rem;
   }

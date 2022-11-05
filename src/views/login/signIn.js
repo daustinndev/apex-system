@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { SplashScreenLoading } from '../../components/loading'
 export const SignIn = () => {
-  const { signIn, user, loading, signInGoogle, signInFacebook } = useAuth()
+  const { signIn, user, loading, signInGoogle, signInFacebook, userCrearteDatabase } = useAuth()
 
 
   // states
@@ -44,8 +44,25 @@ export const SignIn = () => {
   }
   const SignInGoogle = async (e) => {
     setLoadingGoogle(true)
+    let USER_TEMP = {}
+
     try {
-      await signInGoogle()
+      USER_TEMP = await signInGoogle()
+      if (USER_TEMP) {
+        const USER_DETAIL = {
+          userId: USER_TEMP.user.uid,
+          firstName: USER_TEMP.user.displayName ? USER_TEMP.user.displayName : "",
+          lastName: "",
+          roles: {
+            inventory: []
+          },
+          type: "usuario",
+          username: USER_TEMP.user.uid,
+          photoURL: USER_TEMP.user.photoURL ? USER_TEMP.user.photoURL : null,
+          phoneNumber: USER_TEMP.user.phoneNumber ? USER_TEMP.user.phoneNumber : "",
+        }
+        userCrearteDatabase(USER_DETAIL)
+      }
       setLoadingGoogle(false)
     } catch (error) {
       alert(error.code)
@@ -54,8 +71,24 @@ export const SignIn = () => {
   }
   const SignInFacebook = async (e) => {
     setLoadingFacebook(true)
+    let USER_TEMP = {}
     try {
-      await signInFacebook()
+      USER_TEMP = await signInFacebook()
+      if (USER_TEMP) {
+        const USER_DETAIL = {
+          userId: USER_TEMP.user.uid,
+          firstName: USER_TEMP.user.displayName ? USER_TEMP.user.displayName : "",
+          lastName: "",
+          roles: {
+            inventory: []
+          },
+          type: "usuario",
+          username: USER_TEMP.user.uid,
+          photoURL: USER_TEMP.user.photoURL ? USER_TEMP.user.photoURL : null,
+          phoneNumber: USER_TEMP.user.phoneNumber ? USER_TEMP.user.phoneNumber : "",
+        }
+        userCrearteDatabase(USER_DETAIL)
+      }
       setLoadingFacebook(false)
     } catch (error) {
       alert(error.code)
@@ -80,7 +113,6 @@ export const SignIn = () => {
   if (user) return <Navigate to='/' />
   if (loading) return <SplashScreenLoading />
   return (
-
     <>
       <Container>
         <Header>
@@ -115,7 +147,7 @@ export const SignIn = () => {
                                   :
                                   error === "auth/account-exists-with-different-credential" ? "Ya existe una cuenta con este correo , intente con otra cuenta"
                                     :
-                                      error
+                                    error
                         }
                         <a href="">Ayuda</a>
                       </p>
@@ -251,7 +283,6 @@ const Content = styled.div`
     }
   }
 `
-
 const BannerLogin = styled.div`
   padding: 5px;
   padding-right: 0;

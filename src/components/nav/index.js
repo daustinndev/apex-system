@@ -12,7 +12,7 @@ import { useAuth } from '../../context/authContext';
 import { ButtomItem } from './itemButtom';
 
 export const Nav = () => {
-    const {user} = useAuth()
+    const {user, userDetail, userDetailLoading ,getUserDetail} = useAuth()
     const {logout} =useAuth()
     const navigate = useNavigate()
     const handleLogout = async()=>{
@@ -132,7 +132,7 @@ export const Nav = () => {
                                 </BtnSidebar>
                             </LiItem> */}
                             <LiItem>
-                                <BtnSidebar Element={<ButtomItem IconImg={ImgCircle} urlImg={user.photoURL ?  user.photoURL : '/assets/no-profile.png'} />}>
+                                <BtnSidebar Element={<ButtomItem urlImg={userDetailLoading ? '' : userDetail.photoURL ? userDetail.photoURL : user.photoURL ? user.photoURL : '/assets/no-profile.png'} />}>
                                     <SidebarLayout wSidebar='280px'>
                                         <SidebarHeader title='Menu' />
                                         <SidebarBody loading={false}>

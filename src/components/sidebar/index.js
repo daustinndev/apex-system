@@ -17,11 +17,11 @@ export const SidebarHeader = ({ title, href, hrefText, iconBtn, iconBtnOnclick }
     </>
   )
 }
-export const SidebarBody = ({ children, loading }) => {
+export const SidebarBody = ({ children, loading , styled}) => {
   return (
     <>
       <Body>
-        <UlList>
+        <UlList style={{styled}}>
           {
             loading ?
               <LoadingBody>
@@ -146,9 +146,7 @@ const Body = styled.div`
 const UlList = styled.ul`
   display: flex;
   flex-direction: column;
-  padding: 4px;
-  background-color: var(--black-300);
-  margin: 5px;
+  background-color: var(--black-400);
   border-radius: 6px;
 
 `
@@ -192,7 +190,7 @@ const LiItem = styled.li`
       }
     }
     &:hover{
-      background-color: var(--black-400);
+      background-color: var(--black-600);
     }
     .NewReload{
       min-width: 6px;

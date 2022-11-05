@@ -63,8 +63,7 @@ export const ButtomItem = ({
 const ButtonBtn = styled.button`
     display: flex;
     align-items: center;
-    background-color: ${props => props.Active ? 'var(--black-200)' : 'transparent'};
-    background-color: ${props => props.Active ? 'var(--blue-transpaernt-100)' : 'transparent'};
+    background-color: ${props => props.Active ? 'var(--black-500)' : 'transparent'};
     border-radius: 5px;
     width: 100%;
     border: transparent;
@@ -82,9 +81,12 @@ const Icon = styled.div`
     overflow: hidden;
     border-radius: ${props => props.UrlImgProfile ? '50%' : '0'};
     border:${props => props.UrlImgProfile ? '1px  solid var(--black-600)' : '0'};
+    display: flex;
+    align-items: center;
+    justify-content: center;
     img{
       width: 100%;
-      height: 100%;
+      height: auto;
     }
 `
 const SpanText = styled.span`

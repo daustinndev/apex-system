@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ButtomItem = ({
   icon,
-  IconImg,
   onClick,
   text, 
   urlImg,
@@ -17,7 +16,7 @@ export const ButtomItem = ({
       <ButonCircleContainer  style={styled}>
         <Button  urlImg={urlImg} text={text} onClick={onClick && onClick}>
           {icon && <FontAwesomeIcon icon={icon} />}
-          {IconImg && <IconImg url={urlImg} width='40px' />}
+          {urlImg && <img src={urlImg && urlImg}  />}
           {text && <span>{text}</span>}
         </Button>
         {title &&
@@ -71,6 +70,7 @@ const Button = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   padding: ${props => props.urlImg ? '0': '0 8px'};
   &:hover{
     background-color: var(--black-800);
@@ -84,4 +84,11 @@ const Button = styled.div`
     font-size: var(--size-12);
     font-weight: bold;
   }
+  img{
+    max-width: 100%;
+    height: auto;
+  }
+`
+const IconImg = styled.div`
+
 `

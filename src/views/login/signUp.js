@@ -9,8 +9,10 @@ import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { SplashScreenLoading } from '../../components/loading'
+import { db } from '../../firebase/config'
+import { addDoc, collection } from 'firebase/firestore'
 export const SignUp = () => {
-    const { signIn, user, loading, signInGoogle, signInFacebook } = useAuth()
+    const { signUp, user, loading, signInGoogle, signInFacebook,userCrearteDatabase } = useAuth()
 
 
     // states
@@ -18,7 +20,11 @@ export const SignUp = () => {
     const [loadingGoogle, setLoadingGoogle] = useState(false)
     const [loadingFacebook, setLoadingFacebook] = useState(false)
     const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        username: "",
         email: "",
+        phoneNumber: "",
         password: ""
     })
     const [error, setError] = useState("")
@@ -31,17 +37,32 @@ export const SignUp = () => {
             [name]: value
         })
     }
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoadinglogin(true)
+        let USER_TEMP = {}
         try {
-            await signIn(userData)
+            USER_TEMP = await signUp(userData)
+            if (USER_TEMP) {
+                const USER_DETAIL = { 
+                    userId: USER_TEMP.user.uid,
+                    firstName: USER_TEMP.user.displayName ? USER_TEMP.user.displayName :userData.firstName, 
+                    lastName: userData.lastName, 
+                    username: userData.username,
+                    type: "usuario",
+                    photoURL: USER_TEMP.user.photoURL ? USER_TEMP.user.photoURL: null,
+                    phoneNumber: USER_TEMP.user.phoneNumber ? USER_TEMP.user.phoneNumber: userData.phoneNumber,
+                }
+                userCrearteDatabase(USER_DETAIL)
+            }
             setLoadinglogin(false)
         } catch (err) {
             alert(err.code)
             setLoadinglogin(false)
         }
     }
+
     const SignInGoogle = async (e) => {
         setLoadingGoogle(true)
         try {
@@ -138,9 +159,14 @@ export const SignUp = () => {
                                         </ColumnGrid>
                                     </RowGrid>
                                     <RowGrid>
-                                        <ColumnGrid w='12'>
+                                        <ColumnGrid w='8'>
                                             <FormGroup>
                                                 <FormControl name='username' onChange={handlerChange} onValue={userData.username} placeholderLabel='Nombre de usuario' required ></FormControl>
+                                            </FormGroup>
+                                        </ColumnGrid>
+                                        <ColumnGrid w='4'>
+                                            <FormGroup>
+                                                <FormControl name='phoneNumber' onChange={handlerChange} onValue={userData.phoneNumber} placeholderLabel='Numero telefono' ></FormControl>
                                             </FormGroup>
                                         </ColumnGrid>
                                     </RowGrid>
@@ -364,17 +390,18 @@ const LogoApex = styled.div`
 const FormLogin = styled.div`
   position: relative;
   padding: 10px;
-  form{
+  @media (max-width: 628px) {
+    form{
     > div{
         > div{
             width: 100% !important;
         }
-        @media (max-width: 628px) {
-           flex-direction: column !important;
-        }
-
+        flex-direction: column !important;
     }
   }
+  }
+
+  
 `
 const Fotter = styled.div`
   margin-top: auto;

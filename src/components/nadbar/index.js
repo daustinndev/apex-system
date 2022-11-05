@@ -5,9 +5,14 @@ import styled from 'styled-components'
 import { useAuth } from '../../context/authContext';
 import { ButtomItem } from './buttomItem'
 
+import { useNavigate } from "react-router-dom";
+
 
 export const Nadbar = () => {
-  const {user} = useAuth()
+
+  const navigate = useNavigate()
+
+  const { user, userDetail, userDetailLoading, getUserDetail } = useAuth()
   const [shownav, setShownav] = useState(true)
   const appInfo = useSelector(state => state.appInfo)
   const navData = useSelector(state => state.nav)
@@ -15,31 +20,17 @@ export const Nadbar = () => {
   return (
     <>
       <Container>
-        <ScrollNav>
-          <h2>Navegacion</h2>
+        <ScrollNav >
+          {/* <h2>Navegacion</h2> */}
           <UlList shownav={shownav}>
             <LiItem>
               <ButtomItem
-                UrlImgProfile={user.photoURL ?  user.photoURL : '/assets/no-profile.png'}
-                Text={user.displayName ? user.displayName : user.email}
+                onClick={() => navigate('/user/' + user.uid)}
+                UrlImgProfile={userDetailLoading ? '' : userDetail.photoURL ? userDetail.photoURL : user.photoURL ? user.photoURL : '/assets/no-profile.png'}
+                Text={userDetailLoading ? "Cargando" : userDetail.firstName + ' ' + userDetail.lastName.slice(0, 10) + '...'}
+                Active={navData.value === 'profile' && true}
               />
             </LiItem>
-            {/* <LiItem>
-              <ButtomItem
-                UrlImgProfile={appInfo.profile}
-                Text={appInfo.name}
-                to={'/' + appInfo.username}
-                Active={navData.value === appInfo.username && true}
-              />
-            </LiItem>
-            <LiItem>
-              <ButtomItem
-                UrlImgProfile='apex-profile.jpg'
-                Text='Masser Motors'
-                to={'/masser-motors'}
-                Active={navData.value === 'masser-motors' && true}
-              />
-            </LiItem> */}
             <LiSeparation />
             <LiItem>
               <ButtomItem
@@ -51,34 +42,36 @@ export const Nadbar = () => {
             </LiItem>
             <LiItem>
               <ButtomItem
+                UrlImg='save'
+                Text='Guardados'
+                to='/saved'
+                Active={navData.value === 'saved' && true}
+              />
+            </LiItem>
+            {/* <LiItem>
+              <ButtomItem
                 UrlImg='sale-cart'
-                Text='Carrito de compras'
+                Text='Venta y servicio'
                 to='/sale-cart'
                 Active={navData.value === 'sale-cart' && true}
               />
-            </LiItem>
-            <LiItem>
-              <ButtomItem
-                UrlImg='services'
-                Text='Servicio'
-                to='/services'
-                Active={navData.value === 'services' && true}
-              />
-            </LiItem>
-            <LiItem>
-              <ButtomItem
-                UrlImg='save'
-                Text='Guardados'
-              />
-            </LiItem>
-            <LiItem>
-              <ButtomItem
-                UrlImg='product'
-                Text='Inventario'
-                to='/inventory'
-                Active={navData.value === 'inventory' && true}
-              />
-            </LiItem>
+            </LiItem> */}
+            {
+              !userDetailLoading &&
+                userDetail.roles.inventory ?
+                <LiItem>
+                  <ButtomItem
+                    UrlImg='product'
+                    Text='Inventario'
+                    to='/inventory'
+                    Active={navData.value === 'inventory' && true}
+                  />
+                </LiItem>
+                :
+                <></>
+            }
+
+
             <LiItem>
               <ButtomItem
                 UrlImg='history'
@@ -93,22 +86,29 @@ export const Nadbar = () => {
             <LiItem>
               <ButtomItem
                 UrlImg='report'
-                Text='Reporte' />
+                Text='Canales' />
             </LiItem>
-            <LiItem>
-              <ButtomItem UrlImg='user' Text='Usuarios (Empleados)' />
-            </LiItem>
-            <LiItem>
+            {
+              !userDetailLoading &&
+                userDetail.roles.users ?
+                <LiItem>
+                  <ButtomItem UrlImg='user' Text='Usuarios (Empleados)' />
+                </LiItem>
+                :
+                <></>
+            }
+
+            {/* <LiItem>
               <ButtomItem UrlImg='stadistic' Text='Estadistica' />
-            </LiItem>
-            <LiItem>
+            </LiItem> */}
+            {/* <LiItem>
               <ButtomItem UrlImg='calendary' Text='Calendario' />
-            </LiItem>
-            <LiItem>
+            </LiItem> */}
+            {/* <LiItem>
               <ButtomItem UrlImg='top' Text='Top 10' />
-            </LiItem>
+            </LiItem> */}
             <LiItem>
-              <ButtomItem UrlImg='supplier' Text='Proveedores' />
+              <ButtomItem UrlImg='supplier' Text='Amigos' />
             </LiItem>
           </UlList>
           <UlList2>
@@ -116,10 +116,11 @@ export const Nadbar = () => {
               <ButtomItem title={shownav ? 'Mostrar mas' : 'Mostrar menos'} onClick={() => setShownav(!shownav)} UrlImg={shownav ? 'moreBottom' : 'moreTop'} Text={shownav ? 'Ver mas' : 'Ver menos'} />
             </LiItem>
           </UlList2>
-          <h2>Acceso confidencial</h2>
+          {/* <h2>Acceso confidencial</h2> */}
+          <LiSeparation />
           <UlList>
             <LiItem>
-              <ButtomItem UrlImg='apex' Text='My Apex' />
+              <ButtomItem UrlImg='apex' Text='Mi Empresa' />
             </LiItem>
             <LiItem>
               <ButtomItem UrlImg='wallet' Text='Billetera' />

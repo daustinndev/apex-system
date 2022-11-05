@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 
 export const FormControl = ({
@@ -61,7 +62,7 @@ export const FormControl = ({
                 align={align}
                 cursor={cursor}
             >
-                {iconImg && <IconImgDiv><a href={iconImgHref}><img src={iconImg} alt={iconImg} /></a></IconImgDiv>}
+                {iconImg && <IconImgDiv><Link to={iconImgHref}><img src={iconImg} alt={iconImg} /></Link></IconImgDiv>}
                 {iconSvg && <IconSvgDiv><FontAwesomeIcon icon={iconSvg} /></IconSvgDiv>}
                 <FormControlMargen>
                     <input
@@ -80,6 +81,7 @@ export const FormControl = ({
                         pattern={pattern && pattern}
                         accept={accept}
                         multiple={multiple && multiple}
+                        
                     />
                     {type === 'password' &&
                         <BtnEyed>
@@ -313,7 +315,7 @@ const FormControlContainer2 = styled.div`
         border-radius: .5rem;
         transition: .1s;
         font-size:  var(--size-14);
-        color: ${props => props.disabled ? 'var(--write-400)' : 'var(--write-100)'};
+        color: ${props => props.disabled ? 'var(--write-600)' : 'var(--write-100)'};
         color: ${props => props.colorText && props.colorText };
         width: 100%;
         text-align: ${props => props.align ? props.align : 'left'};

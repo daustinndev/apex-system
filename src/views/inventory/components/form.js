@@ -25,7 +25,7 @@ export const FormProduct = ({ modal, setModal, productData, alertDefault }) => {
     // states
     const [modalIntegrated1, setModalIntegrated1] = useState(false)
 
-    const { user } = useAuth()
+    const { user ,userDetail} = useAuth()
     const storage = getStorage();
 
     const [categories, setCategories] = useState([])
@@ -262,10 +262,10 @@ export const FormProduct = ({ modal, setModal, productData, alertDefault }) => {
                                     <ColumnGrid w='6'>
                                         <FormGroup>
                                             <FormControl
-                                                onValue={user.displayName ? user.displayName : user.email}
+                                                onValue={userDetail.firstName ? userDetail.firstName +' '+  userDetail.lastName : user.email}
                                                 cursor='default'
-                                                iconImgHref='/user'
-                                                iconImg={user.photoURL ? user.photoURL : '/assets/no-profile.png'}
+                                                iconImgHref={'/user/'+userDetail.userId}
+                                                iconImg={userDetail.photoURL ? userDetail.photoURL : '/assets/no-profile.png'}
                                                 disabled
                                                 required placeholderLabel='Administrador' />
                                         </FormGroup>

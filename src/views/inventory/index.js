@@ -3,7 +3,7 @@ import { onChangeMethod } from "../../features/nav/navSlice";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { faXmark, faAdd, faHistory, faCopy, faCheckCircle, faFileExcel, faDatabase, faFileImport, faInfoCircle, faStar, faDollar, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { LineChart, AreaChart } from "react-chartkick";
 
 // components
@@ -30,9 +30,10 @@ import { formatDate } from "../../hooks/functions";
 import { LoaderCircle } from "../../components/loading";
 import { BtnLayoutSidbarHover, BtnLayoutSidbarHoverTable } from "../../components/sidebar/sideBarHover";
 import { SidebarBodyProduct } from "./components/sidebarBody";
+import { useAuth } from "../../context/authContext";
 
 export const Inventory = () => {
-
+  const { user, userDetail, userDetailLoading } = useAuth()
   const { condition } = useParams();
   const appData = useSelector(state => state.appInfo);
   const distpach = useDispatch();
@@ -106,94 +107,73 @@ export const Inventory = () => {
     getProducts()
   }, [])
 
+  if (!userDetailLoading && !userDetail.roles.inventory) return <Navigate to='/' />
+
 
   return (
-    <>
-      <Container>
-        <HeaderPage>
-          <h2>Gestor de inventario</h2>
-          <p>Registra, actualiza, elimina y mucho mas</p>
-          <BtnLeft>
-            <Link to='/'>
-              <ButtomCircle icon={faXmark} />
-            </Link>
-          </BtnLeft>
-        </HeaderPage>
-        {/* <BannerHeader>
-          <ListCards>
-            <Card title='Producto mas vendido este mes'>
-              <h2>Huawei P40 Pro</h2>
-              <h3>+245 ventas conluidas</h3>
-              <h3>Ingreso total <b>s/ 56,544.65</b></h3>
-              <h3><FontAwesomeIcon icon={faStar} /> Top 10</h3>
-            </Card>
-            <Card title='Producto con stock de -5'>
-              <h2>Sony, Cable auxiliar</h2>
-              <h3>3 en Stock</h3>
-            </Card>
-            <Card title='Producto mas vendido este mes'>
-              <h2>Huawei P40 Pro</h2>
-              <h3>+245 ventas conluidas</h3>
-              <h3>Ingreso total <b>s/ 56,544.65</b></h3>
-              <h3><FontAwesomeIcon icon={faStar} /> Top 10</h3>
-            </Card>
-            <Card title='Producto con stock de -5'>
-              <h2>Sony, Cable auxiliar</h2>
-              <h3>3 en Stock</h3>
-            </Card>
-          </ListCards>
-        </BannerHeader> */}
-        <Body>
-          <Section>
-            <NavBtns>
-              <FormGroup style={{ width: '100px' }}>
-                <BtnModal
-                  modal={modal}
-                  setModal={setModal}
-                  Element={
-                    <ButtonPrimary
-                      onClick={() => setProductSelected(null)}
-                      loading={modal.statu ? true : false}
-                      icon={faAdd}
-                      ClasName='primary'>Nuevo</ButtonPrimary>
-                  }>
-                  <FormProduct key={productSelected && productSelected.id} alert={alert} productData={productSelected} modal={modal} setModal={setModal} />
-                </BtnModal>
-              </FormGroup>
-              <FormGroup>
-                <ButtonPrimary ClasName='default'>
-                  Editar
-                </ButtonPrimary>
-              </FormGroup>
-              <FormGroup style={{ marginRight: 'auto' }}>
-                <ButtonPrimary icon={faHistory} ClasName='default'>
-                  Ultimas entradas
-                </ButtonPrimary>
-              </FormGroup>
+    !userDetailLoading ?
+      <>
+        <Container>
+          <HeaderPage>
+            <h2>Gestor de inventario</h2>
+            <p>Registra, actualiza, elimina y mucho mas</p>
+            <BtnLeft>
+              <Link to='/'>
+                <ButtomCircle icon={faXmark} />
+              </Link>
+            </BtnLeft>
+          </HeaderPage>
+          <Body>
+            <Section>
+              <NavBtns>
+                <FormGroup style={{ width: '100px' }}>
+                  <BtnModal
+                    modal={modal}
+                    setModal={setModal}
+                    Element={
+                      <ButtonPrimary
+                        onClick={() => setProductSelected(null)}
+                        loading={modal.statu ? true : false}
+                        icon={faAdd}
+                        ClasName='primary'>Nuevo</ButtonPrimary>
+                    }>
+                    <FormProduct key={productSelected && productSelected.id} alert={alert} productData={productSelected} modal={modal} setModal={setModal} />
+                  </BtnModal>
+                </FormGroup>
+                <FormGroup>
+                  <ButtonPrimary ClasName='default'>
+                    Editar
+                  </ButtonPrimary>
+                </FormGroup>
+                <FormGroup style={{ marginRight: 'auto' }}>
+                  <ButtonPrimary icon={faHistory} ClasName='default'>
+                    Ultimas entradas
+                  </ButtonPrimary>
+                </FormGroup>
 
-              <FormGroup>
-                <BtnSidebar Element={<ButtonPrimary IconImg='/user-profiles/daustinn.jpg' ClasName='default'>Importar & exportar</ButtonPrimary>}>
-                  <SidebarLayout>
-                    <SidebarBody>
-                      <SidebarItem Icon={faFileExcel} Text='Exportar CSV' />
-                      <SidebarItem Icon={faDatabase} Text='Exportar Backup - Tabla inventario' />
-                    </SidebarBody>
-                    <SidebarBody>
-                      <SidebarItem Icon={faFileImport} Text='Importar registros (.json)' />
-                      <SidebarItem Icon={faInfoCircle} Text='Mas informacion' />
-                    </SidebarBody>
-                  </SidebarLayout>
-                </BtnSidebar>
-              </FormGroup>
-              <FormGroup>
-                <ButtonPrimary icon={faDatabase} ClasName='primary'>
-                  Generar Reporte
-                </ButtonPrimary>
-              </FormGroup>
+                <FormGroup>
+                  <BtnSidebar Element={<ButtonPrimary IconImg='/user-profiles/daustinn.jpg' ClasName='default'>Importar & exportar</ButtonPrimary>}>
+                    <SidebarLayout>
+                      <SidebarBody>
+                        <SidebarItem Icon={faFileExcel} Text='Exportar CSV' />
+                        <SidebarItem Icon={faDatabase} Text='Exportar Backup - Tabla inventario' />
+                      </SidebarBody>
+                      <SidebarBody>
+                        <SidebarItem Icon={faFileImport} Text='Importar registros (.json)' />
+                        <SidebarItem Icon={faInfoCircle} Text='Mas informacion' />
+                      </SidebarBody>
+                    </SidebarLayout>
+                  </BtnSidebar>
+                </FormGroup>
+                <FormGroup>
+                  <ButtonPrimary icon={faDatabase} ClasName='primary'>
+                    Generar Reporte
+                  </ButtonPrimary>
+                </FormGroup>
 
-            </NavBtns>
-          </Section>
-          {/* <Section>
+              </NavBtns>
+            </Section>
+            {/* <Section>
             <FlexRow>
               <Posts title='Esta semana'>
                 <AreaChart height='200px' data={data} />
@@ -209,78 +189,79 @@ export const Inventory = () => {
               </Posts>
             </FlexRow>
           </Section> */}
-          <Section>
-            <FormContainer>
-              <RowGrid>
-                <ColumnGrid w='12'>
-                  <FormGroup>
-                    <FormControl
-                      placeholder='Buscar producto por Qr, Marca, Descripcion, categoria etc.'
-                      iconImg={'/user-profiles/' + appData.profile}
-                      iconImgHref={'/' + appData.username}
-                      iconBtn={faSearch}
-                      titleBtn='Buscar producto'
-                    />
-                  </FormGroup>
-                </ColumnGrid>
-              </RowGrid>
-            </FormContainer>
-          </Section>
-          <Section>
-            {
-              loadingProducts ?
-                <LoaderCircle />
-                :
-                <TablaContainer>
-                  <Table maxHeigth='100%'>
-                    <thead>
-                      <tr>
-                        <th className="id">id</th>
-                        <th className="qr">Qr</th>
-                        <th className="brand">Marca</th>
-                        <th className="model">Modelo</th>
-                        <th>Descripcion</th>
-                        <th className="price">Precio Uni</th>
-                        <th className="price2">Precio Total</th>
-                        <th className="date">Fecha</th>
-                        <th className="files">Fotos</th>
-                        <th className="stock">Cant</th>
-                      </tr>
-                    </thead>
-                    <tbody >
-                      {
-                        dataProducts &&
-                        dataProducts.map(product =>
-                          <BtnLayoutSidbarHoverTable key={product.id} sidebar={
-                            <SidebarBodyProduct product={product}/>
-                          }>
-                            <td className="id"><BtnCopy onClick={() => CopyId(product.id)} title={"Copiar id : " + product.id}><FontAwesomeIcon icon={faCopy} /></BtnCopy></td>
-                            <td onDoubleClick={() => editProduct(product)} className="qr">{product.codeQr}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="brand">{product.brand}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="model">{product.model}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="description">{product.description.slice(0, 90)}{product.description.length > 50 && '...'}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="price">{formatNumberMoney(product.salePrice)}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="price">{formatNumberMoney(product.salePrice * product.cuantity)}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="date">{formatDate(product.createdAt).slice(0, 10)}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="files">{product.dataFiles.length}</td>
-                            <td onDoubleClick={() => editProduct(product)} className="stock">{product.cuantity}</td>
-                          </BtnLayoutSidbarHoverTable>
-                        )
-                      }
-                    </tbody>
-                  </Table>
-                </TablaContainer>
-            }
-          </Section>
-        </Body>
-      </Container>
+            <Section>
+              <FormContainer>
+                <RowGrid>
+                  <ColumnGrid w='12'>
+                    <FormGroup>
+                      <FormControl
+                        placeholder='Buscar producto por Qr, Marca, Descripcion, categoria etc.'
+                        iconImg={'/user-profiles/' + appData.profile}
+                        iconImgHref={'/' + appData.username}
+                        iconBtn={faSearch}
+                        titleBtn='Buscar producto'
+                      />
+                    </FormGroup>
+                  </ColumnGrid>
+                </RowGrid>
+              </FormContainer>
+            </Section>
+            <Section>
+              {
+                loadingProducts ?
+                  <LoaderCircle />
+                  :
+                  <TablaContainer>
+                    <Table maxHeigth='100%'>
+                      <thead>
+                        <tr>
+                          <th className="id">id</th>
+                          <th className="qr">Qr</th>
+                          <th className="brand">Marca</th>
+                          <th className="model">Modelo</th>
+                          <th>Descripcion</th>
+                          <th className="price">Precio Uni</th>
+                          <th className="price2">Precio Total</th>
+                          <th className="date">Fecha</th>
+                          <th className="files">Fotos</th>
+                          <th className="stock">Cant</th>
+                        </tr>
+                      </thead>
+                      <tbody >
+                        {
+                          dataProducts &&
+                          dataProducts.map(product =>
+                            <BtnLayoutSidbarHoverTable key={product.id} sidebar={
+                              <SidebarBodyProduct product={product} />
+                            }>
+                              <td className="id"><BtnCopy onClick={() => CopyId(product.id)} title={"Copiar id : " + product.id}><FontAwesomeIcon icon={faCopy} /></BtnCopy></td>
+                              <td onDoubleClick={() => editProduct(product)} className="qr">{product.codeQr}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="brand">{product.brand}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="model">{product.model}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="description">{product.description.slice(0, 90)}{product.description.length > 50 && '...'}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="price">{formatNumberMoney(product.salePrice)}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="price">{formatNumberMoney(product.salePrice * product.cuantity)}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="date">{formatDate(product.createdAt).slice(0, 10)}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="files">{product.dataFiles.length}</td>
+                              <td onDoubleClick={() => editProduct(product)} className="stock">{product.cuantity}</td>
+                            </BtnLayoutSidbarHoverTable>
+                          )
+                        }
+                      </tbody>
+                    </Table>
+                  </TablaContainer>
+              }
+            </Section>
+          </Body>
+        </Container>
 
-       {/* modals  */}
-      {
-        showAlertDefault.statu &&
-        <AlertTime icon={showAlertDefault.icon} text={showAlertDefault.text} />
-      }
-    </>
+        {
+          showAlertDefault.statu &&
+          <AlertTime icon={showAlertDefault.icon} text={showAlertDefault.text} />
+        }
+      </>
+      :
+      <><LoaderCircle /></>
   )
 }
 

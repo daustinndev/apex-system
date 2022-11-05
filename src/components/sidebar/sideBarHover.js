@@ -11,33 +11,18 @@ export const BtnLayoutSidbarHoverTable = ({ sidebar, children }) => {
         setShow(false)
     }
 
-
-    let interval;
-    function timeOut() {
-        open()
-        clearInterval(interval)
-    }
-    function delayOpen() {
-        interval = setInterval(timeOut, 1000)
-    }
-    function Delayclosed() {
-        clearInterval(interval)
-        closed()
-    }
-
-
     return (
         <>
             <Tr
-                onDoubleClick={() => Delayclosed()}
-                onMouseEnter={delayOpen}
-                onMouseLeave={Delayclosed}
+                onDoubleClick={() => closed()}
+                onMouseEnter={open}
+                onMouseLeave={closed}
             >
                 {children}
 
                 {
                     show &&
-                    <ContainerSidebar>
+                    <ContainerSidebar data-aos="fade-zoom-in" data-aos-delay="800" data-aos-duration="500" >
                         {sidebar}
                     </ContainerSidebar>
                 }
@@ -56,7 +41,7 @@ const ContainerSidebar = styled.div`
     border:solid 1px var(--black-600);
     border-radius: 8px;
     overflow: hidden;
-    top: 0;
+    top: 35px;
     left: 0;
     z-index: 100;
     cursor: default !important;

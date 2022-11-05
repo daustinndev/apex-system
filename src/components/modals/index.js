@@ -21,8 +21,8 @@ export const ModalLayout = ({ children, w }) => {
     }, [])
     return (
         <>
-            <Container >
-                <Content w={w}>
+            <Container>
+                <Content  data-aos="fade-zoom-in"data-aos-duration="500" w={w}>
                     {children}
                 </Content>
             </Container>
@@ -110,7 +110,7 @@ export const BtnModal = ({ children, Element, modal, setModal }) => {
     }
     return (
         <>
-            <BtnOnclick >
+            <BtnOnclick  >
                 <><BtnContiner onClick={() => openModal()}>{Element}</BtnContiner></>
                 {
                     modal.statu &&
